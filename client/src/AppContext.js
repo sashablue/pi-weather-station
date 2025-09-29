@@ -308,17 +308,6 @@ export function AppContextProvider({ children }) {
     setHourlyWeatherDataErr(null);
     setHourlyWeatherDataErrMsg(null);
     const { latitude, longitude } = coords;
-    const fields = [
-      "temperature",
-      "precipitationProbability",
-      "precipitationIntensity",
-      "windSpeed",
-    ].join("%2c");
-
-    const endTime = new Date(
-      new Date().getTime() + 60 * 60 * 23 * 1000
-    ).toISOString();
-
     return new Promise((resolve, reject) => {
       if (!coords) {
         setHourlyWeatherDataErr(true);
@@ -332,7 +321,7 @@ export function AppContextProvider({ children }) {
 
       axios
         .get(
-          `https://api.tomorrow.io/v4/timelines?location=${latitude}%2C${longitude}&fields=${fields}&timesteps=1h&apikey=${weatherApiKey}&endTime=${endTime}`
+          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude}%2C${longitude}&timesteps=1h&apikey=${weatherApiKey}`
         )
         .then((res) => {
           if (!res) {
@@ -366,17 +355,6 @@ export function AppContextProvider({ children }) {
     setDailyWeatherDataErr(null);
     setDailyWeatherDataErrMsg(null);
     const { latitude, longitude } = coords;
-    const fields = [
-      "temperature",
-      "precipitationProbability",
-      "precipitationIntensity",
-      "windSpeed",
-    ].join("%2c");
-
-    const endTime = new Date(
-      new Date().getTime() + 4 * 60 * 60 * 24 * 1000
-    ).toISOString();
-
     return new Promise((resolve, reject) => {
       if (!coords) {
         setDailyWeatherDataErr(true);
@@ -389,7 +367,7 @@ export function AppContextProvider({ children }) {
       }
       axios
         .get(
-          `https://api.tomorrow.io/v4/timelines?location=${latitude}%2C${longitude}&fields=${fields}&timesteps=1d&apikey=${weatherApiKey}&endTime=${endTime}`
+          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude}%2C${longitude}&timesteps=1d&apikey=${weatherApiKey}`
         )
         .then((res) => {
           if (!res) {
@@ -479,7 +457,7 @@ export function AppContextProvider({ children }) {
 
       axios
         .get(
-          `https://api.tomorrow.io/v4/timelines?location=${latitude}%2C${longitude}&fields=${fields}&timesteps=current&apikey=${weatherApiKey}`
+          `https://api.tomorrow.io/v4/weather/realtime?location=${latitude}%2C${longitude}&fields=${fields}&apikey=${weatherApiKey}`
         )
         .then((res) => {
           if (!res) {
