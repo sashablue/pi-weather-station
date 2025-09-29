@@ -96,7 +96,7 @@ const mapChartData = ({
   altMode,
   lengthUnit,
 }) => {
-  const data = weatherData?.data?.timelines?.[0]?.intervals;
+  const data = weatherData?.timelines?.daily;
   if (!data) {
     return null;
   }

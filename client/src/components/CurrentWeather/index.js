@@ -35,8 +35,7 @@ const CurrentWeather = () => {
   const { currentWeatherData, tempUnit, speedUnit, sunriseTime, sunsetTime } = useContext(
     AppContext
   );
-  const weatherData =
-    currentWeatherData?.data?.timelines?.[0]?.intervals[0]?.values;
+  const weatherData = currentWeatherData?.data?.values;
   if (weatherData) {
     const {
       cloudCover,
