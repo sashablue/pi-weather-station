@@ -14,22 +14,19 @@ import styles from "./styles.css";
  */
 const SunRiseSet = () => {
   const { sunriseTime, sunsetTime, clockTime } = useContext(AppContext);
-  const sunrise = sunriseTime ? new Date(sunriseTime) : null;
-  const sunset = sunsetTime ? new Date(sunsetTime) : null;
-
-  if (sunrise && sunset && !isNaN(sunrise) && !isNaN(sunset)) {
+  if (sunriseTime && sunsetTime) {
     return (
       <div className={styles.container}>
         <div>
           <InlineIcon icon={bxsSun} />
           <span>
-            {format(sunrise, clockTime === "12" ? "p" : "HH:mm")}
+            {format(new Date(sunriseTime), clockTime === "12" ? "p" : "HH:mm")}
           </span>
         </div>
         <div>
           <InlineIcon icon={bxsMoon} />
           <span>
-            {format(sunset, clockTime === "12" ? "p" : "HH:mm")}
+            {format(new Date(sunsetTime), clockTime === "12" ? "p" : "HH:mm")}
           </span>
         </div>
       </div>

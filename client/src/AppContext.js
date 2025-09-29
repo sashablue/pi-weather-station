@@ -50,6 +50,7 @@ export function AppContextProvider({ children }) {
   const [mouseHide, setMouseHide] = useState(false);
   const [sunriseTime, setSunriseTime] = useState(null);
   const [sunsetTime, setSunsetTime] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   /**
    * Save mouse hide state
@@ -174,9 +175,15 @@ export function AppContextProvider({ children }) {
    * @param {String} coords.longitude
    */
   function setMapPosition(coords) {
-    updateCurrentWeatherData(coords);
-    updateHourlyWeatherData(coords);
-    updateDailyWeatherData(coords);
+    setLoading(true);
+    Promise.all([
+      updateCurrentWeatherData(coords),
+      updateHourlyWeatherData(coords),
+      updateDailyWeatherData(coords),
+      updateSunriseSunset(coords),
+    ]).finally(() => {
+      setLoading(false);
+    });
     setMapGeo(coords);
     setPanToCoords(coords);
   }
@@ -204,7 +211,7 @@ export function AppContextProvider({ children }) {
               longitude: parseFloat(startingLon),
             };
             setBrowserGeo(latLon);
-            setMapGeo(latLon); //Set initial map coords to custom lat/lon
+            setMapPosition(latLon);
             resolve(latLon);
           } else {
             getCoordsFromApi()
@@ -214,7 +221,7 @@ export function AppContextProvider({ children }) {
                 }
                 const { latitude, longitude } = res;
                 setBrowserGeo({ latitude, longitude });
-                setMapGeo({ latitude, longitude }); //Set initial map coords to browser geolocation
+                setMapPosition({ latitude, longitude });
                 resolve(res);
               })
               .catch((err) => {
@@ -601,6 +608,7 @@ export function AppContextProvider({ children }) {
     updateSunriseSunset,
     sunriseTime,
     sunsetTime,
+    loading,
   };
 
   return (

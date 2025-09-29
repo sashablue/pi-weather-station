@@ -46,12 +46,7 @@ const CurrentWeather = () => {
       weatherCode,
       windSpeed,
     } = weatherData;
-    const sunrise = sunriseTime ? new Date(sunriseTime) : null;
-    const sunset = sunsetTime ? new Date(sunsetTime) : null;
-    const daylight =
-      sunrise && sunset && !isNaN(sunrise) && !isNaN(sunset)
-        ? isDaylight(sunrise, sunset)
-        : true;
+    const daylight = sunriseTime && sunsetTime ? isDaylight(new Date(sunriseTime), new Date(sunsetTime)) : true;
     const { icon: weatherIcon, desc: weatherDesc } =
       parseWeatherCode(weatherCode, daylight) || {};
 
@@ -186,8 +181,8 @@ const parseWeatherCode = (code, isDay) => {
  * @returns {Boolean} if current time is during daylight
  */
 function isDaylight(sunrise, sunset) {
-  const sunriseTime = sunrise.getTime();
-  const sunsetTime = sunset.getTime();
+  const sunriseTime = new Date(sunrise).getTime();
+  const sunsetTime = new Date(sunset).getTime();
   const now = new Date().getTime();
   return !!(now > sunriseTime && now < sunsetTime);
 }
