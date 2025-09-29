@@ -308,6 +308,12 @@ export function AppContextProvider({ children }) {
     setHourlyWeatherDataErr(null);
     setHourlyWeatherDataErrMsg(null);
     const { latitude, longitude } = coords;
+    const fields = [
+      "temperature",
+      "precipitationProbability",
+      "precipitationIntensity",
+      "windSpeed",
+    ].join("%2c");
 
     return new Promise((resolve, reject) => {
       if (!coords) {
@@ -322,7 +328,7 @@ export function AppContextProvider({ children }) {
 
       axios
         .get(
-          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude},${longitude}&timesteps=1h&apikey=${weatherApiKey}`
+          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude},${longitude}&fields=${fields}&timesteps=1h&apikey=${weatherApiKey}`
         )
         .then((res) => {
           if (!res) {
@@ -356,6 +362,12 @@ export function AppContextProvider({ children }) {
     setDailyWeatherDataErr(null);
     setDailyWeatherDataErrMsg(null);
     const { latitude, longitude } = coords;
+    const fields = [
+      "temperature",
+      "precipitationProbability",
+      "precipitationIntensity",
+      "windSpeed",
+    ].join("%2c");
 
     return new Promise((resolve, reject) => {
       if (!coords) {
@@ -369,7 +381,7 @@ export function AppContextProvider({ children }) {
       }
       axios
         .get(
-          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude},${longitude}&timesteps=1d&apikey=${weatherApiKey}`
+          `https://api.tomorrow.io/v4/weather/forecast?location=${latitude},${longitude}&fields=${fields}&timesteps=1d&apikey=${weatherApiKey}`
         )
         .then((res) => {
           if (!res) {
