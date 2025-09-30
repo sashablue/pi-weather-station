@@ -6,7 +6,7 @@ const axios = require("axios");
  */
 function getCoords(req, res) {
   axios
-    .get("https://api.ipbase.com/v1/json/")
+    .get("https://freegeoip.app/json/")
     .then((result) => {
       return res.status(result.status).json(result.data).end();
     })

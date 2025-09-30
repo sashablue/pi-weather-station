@@ -5,7 +5,6 @@ import { AppContext } from "~/AppContext";
 import WeatherMap from "~/components/WeatherMap";
 import InfoPanel from "~/components/InfoPanel";
 import Settings from "~/components/Settings";
-import Spinner from "~/components/Spinner";
 
 import "!style-loader!css-loader!./overrides.css";
 
@@ -21,7 +20,6 @@ const App = () => {
     loadStoredData,
     darkMode,
     mouseHide,
-    loading,
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -36,25 +34,21 @@ const App = () => {
         mouseHide ? styles.hideMouse : ""
       }`}
     >
-      {loading ? (
-        <Spinner />
-      ) : (
-        <div className={styles.container}>
-          <div className={styles.settingsContainer}>
-            <Settings />
-          </div>
-          <div
-            className={`${styles.weatherMap} map-container ${
-              mouseHide ? "map-mouse-hide" : ""
-            } ${darkMode ? "map-dark-mode" : ""}`}
-          >
-            <WeatherMap zoom={9} dark={darkMode} />
-          </div>
-          <div className={styles.infoContainer}>
-            <InfoPanel />
-          </div>
+      <div className={styles.container}>
+        <div className={styles.settingsContainer}>
+          <Settings />
         </div>
-      )}
+        <div
+          className={`${styles.weatherMap} map-container ${
+            mouseHide ? "map-mouse-hide" : ""
+          } ${darkMode ? "map-dark-mode" : ""}`}
+        >
+          <WeatherMap zoom={9} dark={darkMode} />
+        </div>
+        <div className={styles.infoContainer}>
+          <InfoPanel />
+        </div>
+      </div>
     </div>
   );
 };

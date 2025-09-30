@@ -103,13 +103,14 @@ const mapChartData = ({
   }
   return {
     labels: data.map((e) => {
+      const date = new Date(e.startTime);
+      const adjustedTimestamp =
+        date.getTime() + date.getTimezoneOffset() * 60 * 1000;
+      const adjustedDate = new Date(adjustedTimestamp);
       if (clockTime === "12") {
-        return `${format(new Date(e.startTime), "h")}${format(
-          new Date(e.startTime),
-          "aaaaa"
-        )}`;
+        return `${format(adjustedDate, "h")}${format(adjustedDate, "aaaaa")}`;
       } else {
-        return `${format(new Date(e.startTime), "HH")}`;
+        return `${format(adjustedDate, "HH")}`;
       }
     }),
     datasets: [
